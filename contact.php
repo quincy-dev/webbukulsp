@@ -1,0 +1,10 @@
+<?php
+// Halaman untuk mengirim pesan kepada admin.
+
+// Memanggil file pendukung yang dibutuhkan halaman ini.
+require_once __DIR__.'/config/database.php';
+$conn->query("CREATE TABLE IF NOT EXISTS pesan (id INT AUTO_INCREMENT PRIMARY KEY,user_id INT NULL,nama VARCHAR(100) NOT NULL,email VARCHAR(150) NOT NULL,pesan TEXT NOT NULL,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+$u=$_SESSION['user']??null;$success='';$error='';
+if($_SERVER['REQUEST_METHOD']==='POST'){ $nama=trim($_POST['nama']??'');$email=trim($_POST['email']??'');$pesan=trim($_POST['pesan']??'');if(!$nama||!filter_var($email,FILTER_VALIDATE_EMAIL)||!$pesan)$error='Isi nama, email valid, dan pesan.';else{$uid=$u?(int)$u['id']:null;$s=// Query disiapkan terlebih dahulu agar input lebih aman.
+$conn->prepare("INSERT INTO pesan(user_id,nama,email,pesan) VALUES(?,?,?,?)");$s->bind_param('isss',$uid,$nama,$email,$pesan);if($s->execute())$success='Pesan berhasil dikirim ke admin.';else$error='Pesan gagal dikirim.';}}
+?><!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Contact</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"></head><body><?php include __DIR__.'/includes/navbar.php';?><main class="container py-5" style="max-width:700px"><h2>Hubungi Admin</h2><?php if($success):?><div class="alert alert-success"><?=$success?></div><?php endif;?><?php if($error):?><div class="alert alert-danger"><?=$error?></div><?php endif;?><form method="post" class="card card-body shadow-sm"><label class="form-label">Nama</label><input class="form-control mb-3" name="nama" required value="<?=htmlspecialchars($u['nama_lengkap']??'')?>"><label class="form-label">Email</label><input class="form-control mb-3" type="email" name="email" required value="<?=htmlspecialchars($u['email']??'')?>"><label class="form-label">Pesan</label><textarea class="form-control mb-3" name="pesan" rows="5" required></textarea><button class="btn btn-primary">Kirim Pesan</button></form></main></body></html>

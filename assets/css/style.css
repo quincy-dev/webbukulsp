@@ -1,0 +1,49 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #212529;
+}
+
+.hero-image {
+    height: 420px;
+    object-fit: cover;
+}
+
+.book-card {
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+}
+
+.book-card:hover {
+    transform: translateY(-4px);
+}
+
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #eef4ff, #f7f1ff);
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 440px;
+    padding: 20px;
+}
+
+.auth-card {
+    border-radius: 18px;
+}
+
+.navbar {
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
+}
+
+.pagination .page-link {
+    border-radius: 8px;
+    margin: 0 4px;
+}
